@@ -26,6 +26,14 @@ app.get('/artists', function(req, res){
     console.log('Artists were sent')
 })
 
+app.get('/artists/:id', function(req, res){
+    console.log(req.params);
+    var artist = artists.find(function(value){
+        return value.id === Number(req.params.id)
+    })
+    res.send(artist);
+})
+
 app.listen(3012, function(){
     console.log('API app started');
 })
