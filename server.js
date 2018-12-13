@@ -54,8 +54,8 @@ app.put('/artists/:id',function(req, res){
 })
 
 app.delete('/artists/:id',function(req, res){
-    artists = artists.filter(function(val){
-        return artists.id !== Number(req.params.id);
+    artists = artists.filter(function(value){
+        return value.id !== Number(req.params.id);
     });
     res.sendStatus(200);
 })
