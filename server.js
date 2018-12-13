@@ -1,7 +1,6 @@
+var bodyParser = require('body-parser');
 var express = require ('express');
-
 var app = express();
-
 var artists = [
     {
         id:1,
@@ -16,6 +15,9 @@ var artists = [
         name:'Queen'
     },
 ];
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get ('/', function(req, res){
     res.send('Hello API');
@@ -33,6 +35,11 @@ app.get('/artists/:id', function(req, res){
         return value.id === Number(req.params.id);
     })
     res.send(artist);
+})
+
+app.post('/artists', function(req, res){
+    console.log(req.body);
+    res.send('some post data');
 })
 
 app.listen(3012, function(){
