@@ -26,13 +26,10 @@ app.get ('/', function(req, res){
 
 app.get('/artists', function(req, res){
     res.send(artists)
-    console.log('Artists were sent')
 })
 
 app.get('/artists/:id', function(req, res){
-    console.log(req.params);
     var artist = artists.find(function(value){
-//        console.log((typeof value.id) + value.id);
         return value.id === Number(req.params.id);
     })
     res.send(artist);
@@ -45,6 +42,22 @@ app.post('/artists', function(req, res){
     };
     artists.push(artist);
     res.send(artist);
+})
+
+app.put('/artists/:id',function(req, res){
+    var artist = artists.find(function(value){
+        return value.id === Number(req.params.id);
+    });
+    artist.name = req.body.name;
+    res.sendStatus(200);
+
+})
+
+app.delete('/artists/:id',function(req, res){
+    artists = artists.filter(function(val){
+        return artists.id !== Number(req.params.id);
+    });
+    res.sendStatus(200);
 })
 
 app.listen(3012, function(){
