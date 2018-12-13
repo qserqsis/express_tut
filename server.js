@@ -76,10 +76,11 @@ app.delete('/artists/:id',function(req, res){
 })
 
 
-
-mongoClient.connect('mongodb://mongo:27017/docker-node-mongo-express-tut', function(err, database){
+const dbUrl = 'mongodb://mongo:27017';
+mongoClient.connect(dbUrl, function(err, client){
     if (err) throw err;
-    db = database;
+    console.log('Connected to database');
+    db = client.db('docker-node-mongo-express-tut');
     app.listen(3000, function(){
         console.log('API app started');
     })
