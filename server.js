@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser');
-var express = require ('express');
+var express = require('express');
+var uuid = require('uuid');
 var app = express();
 var artists = [
     {
@@ -38,9 +39,12 @@ app.get('/artists/:id', function(req, res){
 })
 
 app.post('/artists', function(req, res){
-    //var artist = 
-    console.log(req.body);
-    res.send('Some post data');
+    var artist = {
+        id:uuid.v4(),
+        name:req.body.name
+    };
+    artists.push(artist);
+    res.send(artist);
 })
 
 app.listen(3012, function(){
