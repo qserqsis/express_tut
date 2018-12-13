@@ -3,7 +3,7 @@ var express = require('express');
 var uuid = require('uuid');
 var app = express();
 var mongoClient = require('mongodb').MongoClient;
-
+var objectID = require('mongodb').ObjectID;
 var db;
 var artists = [
     {
@@ -40,10 +40,14 @@ app.get('/artists', function(req, res){
 })
 
 app.get('/artists/:id', function(req, res){
-    var artist = artists.find(function(value){
-        return value.id === Number(req.params.id);
-    })
-    res.send(artist);
+    db.collection('artists')
+        .findOne({ _id: objectID(req.params.id)}, function(err,doc){
+            if (err){
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.send(doc);
+        })
 })
 
 app.post('/artists', function(req, res){
@@ -59,7 +63,7 @@ app.post('/artists', function(req, res){
     })
 })
 
-app.put('/artists/:id',function(req, res){
+app.put('/artists/:id', function(req, res){
     var artist = artists.find(function(value){
         return value.id === Number(req.params.id);
     });
@@ -68,7 +72,7 @@ app.put('/artists/:id',function(req, res){
 
 })
 
-app.delete('/artists/:id',function(req, res){
+app.delete('/artists/:id', function(req, res){
     artists = artists.filter(function(value){
         return value.id !== Number(req.params.id);
     });
