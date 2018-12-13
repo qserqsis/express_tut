@@ -38,8 +38,9 @@ app.get('/artists/:id', function(req, res){
 })
 
 app.post('/artists', function(req, res){
+    //var artist = 
     console.log(req.body);
-    res.send('some post data');
+    res.send('Some post data');
 })
 
 app.listen(3012, function(){
