@@ -29,7 +29,8 @@ app.get('/artists', function(req, res){
 app.get('/artists/:id', function(req, res){
     console.log(req.params);
     var artist = artists.find(function(value){
-        return value.id === Number(req.params.id)
+//        console.log((typeof value.id) + value.id);
+        return value.id === Number(req.params.id);
     })
     res.send(artist);
 })
