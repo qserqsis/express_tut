@@ -2,6 +2,9 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var uuid = require('uuid');
 var app = express();
+var mongoClient = require('mongodb').MongoClient;
+
+var db;
 var artists = [
     {
         id:1,
@@ -60,7 +63,15 @@ app.delete('/artists/:id',function(req, res){
     res.sendStatus(200);
 })
 
-app.listen(3012, function(){
-    console.log('API app started');
-})
 
+
+mongoClient.connect('mongodb://mongo:27017/docker-node-mongo-express-tut', function(err, database){
+    if (err){
+        return console.log(err)
+    }
+    db = database;
+    app.listen(3000, function(){
+        console.log('API app started');
+    })
+
+})
