@@ -28,7 +28,15 @@ app.get ('/', function(req, res){
 })
 
 app.get('/artists', function(req, res){
-    res.send(artists)
+    db.collection('artists')
+        .find()
+        .toArray(function(err, docs){
+            if (err){
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.send(docs);
+        })
 })
 
 app.get('/artists/:id', function(req, res){
@@ -40,11 +48,15 @@ app.get('/artists/:id', function(req, res){
 
 app.post('/artists', function(req, res){
     var artist = {
-        id:uuid.v4(),
         name:req.body.name
     };
-    artists.push(artist);
-    res.send(artist);
+    db.collection('artists').insert(artist, function(err,result){
+        if (err){
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send(artist);
+    })
 })
 
 app.put('/artists/:id',function(req, res){
@@ -66,9 +78,7 @@ app.delete('/artists/:id',function(req, res){
 
 
 mongoClient.connect('mongodb://mongo:27017/docker-node-mongo-express-tut', function(err, database){
-    if (err){
-        return console.log(err)
-    }
+    if (err) throw err;
     db = database;
     app.listen(3000, function(){
         console.log('API app started');
